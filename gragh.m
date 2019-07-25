@@ -74,5 +74,12 @@ a([1:n+1:n^2])=0%对角线替换0
 %每段路的价格，普通收1.2 高级收2=1.2+0.8
 wp=1.2*w+0.8*a
 %% 计算3企业2仓库到各个存储地的最短费用与路线
-
-%% 
+%构造重要节点之间的最短路径矩阵minp与相应的路径元胞mpath
+minp=zeros(n);
+mpath=cell(n,n);
+for i=1:length(Enterprises)
+    for j=1:length(Hubs)
+[minp(i,j),mpath(i,j)]=mindistance(wp,Enterprises(i),Hubs(j));
+    end
+end
+%%
