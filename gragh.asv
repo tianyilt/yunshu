@@ -48,9 +48,9 @@ n=42;w=zeros(n);
     w(4,5)=10;
     w(2,3)=35;
     w(1,2)=40;
-w=w+w';
+w=w+w'
 w(w==0)=inf;%所有走不通的路都是无穷
-w(1:n+1:n^2)=0;%对角线替换0
+w([1:n+1:n^2])=0%对角线替换0
 % a为路的等级矩阵 1表示边为高等级公路 0表示不是
 a=zeros(n);
     a(5,40)=1;a(27,40)=1;
@@ -68,26 +68,12 @@ a=zeros(n);
     a(4,6)=1;
     a(4,5)=1;
     a=a+a';
-a(1:n+1:n^2)=0;%对角线替换0
+a([1:n+1:n^2])=0%对角线替换0
 
 %% 计算价格矩阵
 %每段路的价格，普通收1.2 高级收2=1.2+0.8
-wp=1.2*w+0.8*a;
+wp=1.2*w+0.8*a
 %% 计算3企业2仓库到各个存储地的最短费用与路线
-%构造重要节点之间的最短路径矩阵minp与相应的路径元胞mpath
-minp=zeros(n);
-mpath=cell(n,n);
-for i=1:length(Enterprises)
-    for j=1:length(Hubs)
-[minp(Enterprises(i),Hubs(j)),mpath{Enterprises(i),Hubs(j)}]=mindistance(wp,Enterprises(i),Hubs(j));
-    end
-end
-for i=1:length(Enterprises)
-    for j=1:length(Stores)
-[minp(Enterprises(i),Stores(j)),mpath{Enterprises(i),Stores(j)}]=mindistance(wp,Enterprises(i),Stores(j));
-    end
-end
-minp=minp+minp';
-minp(minp==0)=inf;%所有走不通的路都是无穷
-minp(1:n+1:n^2)=0%对角线替换0
+%构造
+[test1,test2]=mindistance(wp,Enterprises(1),Hubs(1))
 %%
