@@ -1,10 +1,11 @@
-function [solve,optim]=YunShu2LinePro(Yun,Xv,Chan)
+function [solution,optim]=YunShu2LinePro(Yun,Xv,Chan)
 %YUNSHU2LINEPRO 能够在建立完成运输问题表上作业法的表格后，直接方便求解运输问题。
 %而不用去为了迎合线性规划工具箱而自己构造参数
 %   输入：
 % Yun，是一个销地数*产地数的矩阵，i行j列元素表示从产地j运输到销售地i的价格
 % Xv，是一个列向量，第i个元素表示第i个需求地需求
 % Chan，是一个列向量，第i个元素表示第i个生产地产出
+
 f=[];
 for i=1:size(Yun,1)
     f=[f,Yun(i,:)];
@@ -26,6 +27,11 @@ for i=1:dim1
 end
 lb=zeros(1,size(Yun,1)*size(Yun,2));
 ub=ones(1,size(Yun,1)*size(Yun,2))*inf;
-[solve,optim]=linprog(f,[],[],A,b,lb,ub)
+[solve,optim]=linprog(f,[],[],A,b,lb,ub);
+solution=[];
+for i=1:size(Yun,1)
+    solution=[solution,solve(size(Yun,2)*i-size(Yun,2)+1:size(Yun,2)*i)];
+end
+solution=solution';
 end
 
